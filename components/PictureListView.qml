@@ -9,28 +9,32 @@ Item {
     id: mainScreen
 
     ListModel {
-        id: sampleListModel
-
-        ListElement {
-            imagePath: "http://pic3.zhimg.com/f638c124aba6d6b1403060168396ac12.jpg"
-            title: "First picture"
-        }
-        ListElement {
-            imagePath: "http://pic3.zhimg.com/f638c124aba6d6b1403060168396ac12.jpg"
-            title: "First picture"
-        }
-        ListElement {
-            imagePath: "http://pic3.zhimg.com/f638c124aba6d6b1403060168396ac12.jpg"
-            title: "First picture"
-        }
+        id: listModel
     }
-    JSONListModel{
-        id:jsonModel
-        source: "http://news-at.zhihu.com/api/4/news/latest"
-        query: "$.stroies[*]"
+//    JSONListModel{
+//        id:jsonModel
+//        source: "http://news-at.zhihu.com/api/4/news/latest"
+//        query: "$.stories[*]"
+//    }
+
+    property string source: "http://news-at.zhihu.com/api/4/news/latest"
+    Component.onCompleted: {
+        var xhr = new XMLHttpRequest;
+        xhr.open("GET", source);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                var list = JSON.parse(xhr.responseText);
+                listModel.clear();
+                for (var i in list)
+                    if (i == "stories") {
+                        for (var j in list[i]) {
+                        listModel.append({ "title": list[i][j]["title"], "images": list[i][j]["images"][0] });
+                        }
+                    }
+            }
+        }
+        xhr.send();
     }
-
-
     Component {
         id: listDelegate
         BorderImage {
@@ -48,7 +52,9 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
 
                 BorderImage {
-                    source: model.images[0]; x: 0; y: 0
+//                    source: url(model.images.get(0)); x: 0; y: 0
+                    source: model.images
+
                     height:parent.height
                     width:parent.width
                     anchors.verticalCenter: parent.verticalCenter
@@ -72,7 +78,7 @@ Item {
         width: mainScreen.width
         height: mainScreen.height
 
-        model: jsonModel.model
+        model: listModel
 
         delegate: listDelegate
 //delegate: sampleListModel
