@@ -1,0 +1,15 @@
+{
+    "name": "com.ubuntu.developer.bbboson.dai",
+    "description": "description of dai",
+    "framework": "ubuntu-sdk-14.04-qml",
+    "architecture": "all",
+    "title": "dai",
+    "hooks": {
+        "dai": {
+            "apparmor": "dai.json",
+            "desktop": "dai.desktop"
+        }
+    },
+    "version": "0.1",
+    "maintainer": "Madper Xie <madper.xie@canonical.com>"
+}
