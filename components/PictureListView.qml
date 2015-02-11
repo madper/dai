@@ -38,7 +38,7 @@ Item {
     Component {
         id: listDelegate
         BorderImage {
-            source: "http://pic2.zhimg.com/d4691da85d8f7c4a845bcac5ec49f479.jpg"
+            source: "http://img2.duitang.com/uploads/item/201204/09/20120409202928_QMPVf.thumb.600_0.jpeg"
             border { top:4; left:4; right:100; bottom: 4 }
             anchors.right: parent.right
             // width: mainScreen.width
